@@ -14,7 +14,7 @@
         <label for="dob">出生年月日:</label><br>
         <input type="date" id="dob" name="dob" required><br><br>
         <label for="favorite_color">喜歡的顏色:</label><br>
-        <input type="text" id="favorite_color" name="favorite_color"><br><br>
+        <input type="color" id="favorite_color" name="favorite_color"><br><br>
         <label for="email">電子郵件:</label><br>
         <input type="email" id="email" name="email" required><br><br>
         <label for="username">帳號:</label><br>
