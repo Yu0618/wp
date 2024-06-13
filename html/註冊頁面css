@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>註冊表單</title>
+    <style>
+        body {
+            background-color: #E6E6FA; /* 淡紫色背景 */
+            font-family: Arial, sans-serif;
+        }
+        h2 {
+            text-align: center;
+        }
+        form {
+            width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        label, input {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        input[type="radio"] {
+            display: inline-block;
+            width: auto;
+        }
+        input[type="submit"] {
+            width: auto;
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+<h2>註冊表單</h2>
+    <form>
+        <label for="name">姓名:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+        <label for="gender">性別:</label><br>
+        <input type="radio" id="male" name="gender" value="male" required>
+        <label for="male">男</label><br>
+        <input type="radio" id="female" name="gender" value="female">
+        <label for="female">女</label><br><br>
+        <label for="dob">出生年月日:</label><br>
+        <input type="date" id="dob" name="dob" required><br><br>
+        <label for="favorite_color">喜歡的顏色:</label><br>
+        <input type="color" id="favorite_color" name="favorite_color"><br><br>
+        <label for="email">電子郵件:</label><br>
+        <input type="email" id="email" name="email" required><br><br>
+        <label for="username">帳號:</label><br>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="phone">電話號碼:</label><br>
+        <input type="tel" id="phone" name="phone" required><br><br>
+        <label for="password">密碼:</label><br>
+        <input type="password" id="password" name="password" required><br><br>
+        <label for="confirm_password">確認密碼:</label><br>
+        <input type="password" id="confirm_password" name="confirm_password" required><br><br>
+        <input type="submit" value="提交">
+    </form>
+</body>
+</html>
