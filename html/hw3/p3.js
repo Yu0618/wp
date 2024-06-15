@@ -16,4 +16,4 @@ function isprime(n)
     return true;
 }
 
-console.log(isprime(3));
+console.log(isprime(7));
