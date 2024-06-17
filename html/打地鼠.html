@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>打地鼠遊戲</title>
+</head>
+<style>
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+.content {
+  display: flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.cell {
+  background: yellow;
+  border: 5px solid #6bd1eb;
+  cursor: pointer;
+  width: 100px;
+  height: 100px;
+}
+
+.control {
+  max-width: 300px;
+}
+
+.msg {
+  margin: 5px auto;
+  display: flex;
+  justify-content: space-around;
+  line-height: 2rem;
+}
+</style>
+<body>
+  <div class="content">
+    <div class="row">
+      <img src="123.jpg" class="cell" title="yellow" onclick="getcount(0)">
+      <img src="123.jpg" class="cell" title="yellow" onclick="getcount(1)">
+      <img src="123.jpg" class="cell" title="yellow" onclick="getcount(2)">
+    </div>
+    <div class="row">
+      <img src="123.jpg" class="cell" title="yellow" onclick="getcount(3)">
+      <img src="123.jpg" class="cell" title="yellow" onclick="getcount(4)">
+      <img src="123.jpg" class="cell" title="yellow" onclick="getcount(5)">
+    </div>
+    <div class="row">
+      <img src="123.jpg" class="cell" title="yellow" onclick="getcount(6)">
+      <img src="123.jpg" class="cell" title="yellow" onclick="getcount(7)">
+      <img src="123.jpg" class="cell" title="yellow" onclick="getcount(8)">
+    </div>
+    <div class="control">
+      <div class="msg">
+        <span id="time">剩餘時間：0s</span>
+        <button onclick="gamestart()">遊戲開始</button>
+        <span id="combo">成績分數：0</span>
+      </div>
+      <hr>
+      <b>遊戲說明</b>
+      <p>打地鼠遊戲，請點擊紅色圖片獲得分數（滿分100）</p>
+      <hr>
+    </div>
+  </div>
+  <script>
+    var btn = document.getElementsByTagName("button")[0];
+    var time = document.getElementById("time");
+    var combo = document.getElementById("combo");
+    var animal = document.getElementsByClassName("cell");
+    var flag = 0; // 判別遊戲狀況 停止 0 遊戲中 1
+    var sec = 0, count = 0;
+    var beYellow = new Array();
+
+    btn.addEventListener("click", gamestart);
+
+    function gamestart() {
+      sec = 60, count = 0, flag = 1;
+      time.textContent = `剩餘時間：${sec}`;
+      combo.textContent = `成績分數：${count}`;
+      btn.removeEventListener("click", gamestart);
+
+      let start = setInterval(() => {
+        if (sec == 0) {
+          clearInterval(start);
+          flag = 0;
+          btn.addEventListener("click", gamestart);
+        } else {
+          sec--;
+          time.textContent = `剩餘時間：${sec}`;
+        }
+      }, 1000);
+
+      for (let i = 0; i < 100; i++) {
+        let ontime = Math.floor(Math.random() * 57000);
+        let which = Math.floor(Math.random() * 9);
+        let delay = Math.floor(Math.random() * 3) + 2;
+
+        setTimeout(function () {
+          showit(which, delay, i);
+        }, ontime);
+      }
+    }
+
+    function showit(siWhich, siDelay, siId) {
+      if (animal[siWhich].title != "yellow") {
+        let next = Math.floor(Math.random() * 9);
+
+        setTimeout(function () {
+          showit(next, siDelay, siId);
+        }, 100);
+      } else {
+        animal[siWhich].src = "地鼠.jpg";
+        animal[siWhich].style.background = "red";
+        animal[siWhich].title = "red";
+        animal[siWhich].alt = siId;
+
+        beYellow[siId] = setTimeout(() => {
+          animal[siWhich].src = "123.jpg";
+          animal[siWhich].style.background = null;
+          animal[siWhich].title = "yellow";
+          animal[siWhich].alt = null;
+        } , siDelay * 1000);
+      }
+    }
+
+    document.onkeydown = keyboard;
+    function keyboard(event) {
+      switch (event.keyCode) {
+        case 103: getcount(0); break;
+        case 104: getcount(1); break;
+        case 105: getcount(2); break;
+        case 100: getcount(3); break;
+        case 101: getcount(4); break;
+        case 102: getcount(5); break;
+        case 97: getcount(6); break;
+        case 98: getcount(7); break;
+        case 99: getcount(8); break;
+      }
+    }
+
+    function getcount(who) {
+      if (animal[who].title == "red" && flag == 1) {
+        animal[who].src = "cat.jpg";
+        animal[who].style.background = "green";
+        animal[who].title = "green";
+
+        count++;
+        combo.textContent = `成績分數：${count}`;
+
+        let id = animal[who].alt;
+        clearTimeout(beYellow[id]);
+        animal[who].alt = null;
+
+        setTimeout(() => {
+          animal[who].src = "123.jpg";
+          animal[who].style.background = null;
+          animal[who].title = "yellow";
+        }, 1000);
+      }
+    }
+  </script>
+</body>
+</html>
