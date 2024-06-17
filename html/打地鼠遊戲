@@ -1,0 +1,111 @@
+<div class="content">
+  <!-- (div.row>img:s*3)*3+div.control>(div.msg>span#time+btn+span#combo)+hr+b+p+hr -->
+  <div class="row">
+    <img src="123.jpg" class="cell" title="yellow"/>
+  </div>
+  <div class="row">
+    <img src="123.jpg" class="cell" title="yellow"/>
+  </div>
+  <div class="row">
+    <img src="123.jpg" class="cell" title="yellow"/>
+  </div>
+  <div class="control">
+    <div class="msg">
+      <span id="time">剩餘時間：0s</span>
+      <button>遊戲開始</button>
+      <span id="combo">成績分數：0</span>
+    </div>
+    <hr />
+    <b>遊戲說明</b>
+    <p>打地鼠遊戲，請點擊紅色圖片獲得分數（滿分 100)</p>
+    <hr />
+  </div>
+</div>
+body{
+  margin:0;
+  display: flex;
+  justify-content: center;
+  height:100vh;
+  text-align: center;
+}
+.content{
+  display:flex;
+  flex-flow: column nowrap;
+  align-items: center;
+  justify-content: center;
+}
+.cell{
+  background: yellow;
+  border:5px solid #6bd1eb;
+  cursor: pointer;
+  width:100px;
+  height:100px;
+}
+.control{
+  max-width:400px;
+}
+.msg{
+  margin:5px auto;
+  display: flex;
+  justify-content: space-around;
+  line-height: 2rem;
+}
+button,span{
+  width:30%;
+}
+//初始化
+var btn=document.getElementsByTagName("button")[0]; //button
+var time=document.getElementById("time"); //找到時間
+var combo=document.getElementById("combo"); //找到分數
+var animal=document.getElementsByClassName("cell");
+var flag=0; //判別遊戲狀況 停止 0 遊戲中 1
+var sec=0,count=0;
+var beYellow=new Array(); //到時候會存放所有 red 事件的轉黃定時器，陣列有 100 個位置
+btn.addEventListener("click",gamestart); //規劃點選動作
+
+function gamestart(){ //遊戲開始
+  sec=60,count=0,flag=1;
+  time.textContent=`剩餘時間：${sec}`;
+  combo.textContent=`成績分數：${count}`;
+  btn.removeEventListener("click",gamestart); //關閉 btn，不要再讓人去按他觸發多餘的 gamestart()
+
+  let start=setInterval(()=>{ //控制倒數以及遊戲區間的隔離（按鈕）
+    if(sec==0){
+      clearInterval(start);
+      flag=0;
+      btn.addEventListener("click",gamestart);//開啟 btn
+    }
+    else{
+      sec--;
+      time.textContent=`剩餘時間：${sec}`;
+    }
+  },1000);
+  
+  for(let i=0;i<100;i++){//產生 100 組紅色事件 
+    let ontime=Math.floor(Math.random()*57000); //隨機 0~56999 ms
+    let which=Math.floor(Math.random()*9);  //隨機 0~8 處
+    let delay=Math.floor(Math.random()*3)+2; //隨機 2~4 秒
+
+    setTimeout(function(){
+      showit(which,delay,i);
+    },ontime);
+  }
+}
+
+document.onkeydown=keyboard;//每次的鍵盤動作都會送到 keyboard 函式
+function keyboard(){
+  if(flag){
+    switch (event.keyCode) {
+      case 103: getcount(0);break;
+      case 104: getcount(1);break;
+      case 105: getcount(2);break;
+      case 100: getcount(3);break;
+      case 101: getcount(4);break;
+      case 102: getcount(5);break;
+      case 97: getcount(6);break;
+      case 98: getcount(7);break;
+      case 99: getcount(8);break;
+    }
+  }
+}
+
